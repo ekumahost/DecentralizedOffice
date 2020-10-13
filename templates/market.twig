@@ -1,0 +1,15 @@
+
+{% extends 'twig_templates/app.twig' %}
+
+{% block content %}
+
+    {% include 'pages/home/market.twig' %}
+
+
+
+
+    <script> var market_contracts_address = '{{ market_contracts_address }}'; </script>
+    <script src="{{route_assets}}/js/market_blockchain.js"></script>
+{% endblock %}
+
+

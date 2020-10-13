@@ -1,0 +1,37 @@
+first command : truffle compile
+second command: truffle migrate : push it to the blockchain
+
+>>truffle compile
+>> truffle migrate
+
+
+// lets open truffle console..
+
+>> truffle console
+
+accounts = await web3.eth.getAccounts()
+
+blockNumber = await web3.eth.getBlockNumber()
+
+marketplace = await Marketplace.deployed()
+  CNTRL D to exit truffle console
+// make sure to create migration file for the contract before it can migrate..
+
+>>  marketplace.address 
+
+name = await marketplace.name()
+
+
+// FOR TESTING it comes with mocka an chai
+
+
+// wei converter: etherconverter.online
+
+
+// DEPLOY TO BLOCKCHAIN
+truffle migrate
+
+
+// web3 interact from browser
+1. we need the abi
+2. the address.
