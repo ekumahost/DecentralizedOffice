@@ -45,7 +45,7 @@ const options = {
     },
     servers: [{
      // url: constants.PROTOCOL + constants.SERVER_NAME,
-     url: 'https://doffice.ekumaly.com',
+     url: 'https://doffice.link',
       description: constants.SWAGGER.DESCRIPTION,
 
     }],
@@ -71,7 +71,7 @@ app.get('/' + constants.SWAGGER.UI_EXPRESS_ROUTE, (req, res) => {
 const swaggerUi = require('swagger-ui-express');
 let options_i = {
   swaggerOptions: {
-    url: "https://doffice.ekumaly.com/api-docs.json"
+    url: "https://doffice.link/api-docs.json"
   //  url: constants.PROTOCOL + constants.SERVER_NAME + constants.SWAGGER.UI_EXPRESS_ROUTE
   }
 };
