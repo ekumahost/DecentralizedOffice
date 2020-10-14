@@ -17,7 +17,7 @@ marketplace = await Marketplace.deployed()
   CNTRL D to exit truffle console
 // make sure to create migration file for the contract before it can migrate..
 
->>  marketplace.address 
+>>  marketplace.address
 
 name = await marketplace.name()
 
@@ -35,3 +35,22 @@ truffle migrate
 // web3 interact from browser
 1. we need the abi
 2. the address.
+
+
+
+// deploy to kovan test network https://kovan.etherscan.io/
+0x52D197315C1ce68a59d5ebD8F7E80668f795331e
+// create infura project
+request eth from https://gitter.im/kovan-testnet/faucet
+https://kovan.etherscan.io/tx/0x6d7649c7a246b342e1d2004ab421480901cbfb671bfe2ee678f11db1fe9418e4
+
+drop our contract on remix for deploying...
+create new file, set compiler to correct version.
+DEPLOY:
+https://kovan.etherscan.io/tx/0x806008859a9a3fc21b1ff45bc69ff0b735f3414e40c16f85b4ac310cb18d35bf
+
+DEPLOYING WITH TRUFFLE
+1.. set network in Contract.js file
+
+
+0xA653522416732cA26C5eAC792465bB624920BD83

@@ -5,7 +5,8 @@
              <div class="col-sm-12">
             <div class="element-wrapper">
                 <label id="walletHolder">WALLET NOT CONNECTED YET, PLEASE CONNECT FROM METAMASK AND OTHERS</label> <br>
-                <label id="productCounts">00</label>
+               <hr>
+               WE have  <label id="productCounts">00</label> products in block.
             </div>
             </div>
             </div>
@@ -18,7 +19,7 @@
         <div class="col-sm-12">
             <div class="element-wrapper">
                 <label>Add Product</label>
-                <form id="AddProductForm" action="{{ paths.add_marketProduct }}" enctype="multipart/form-data" method="post">
+                <form id="AddProductForm" action="{{ paths.market }}" enctype="multipart/form-data" method="post">
 
                     <div class="form-group">
                         <label for="">IMAGE FILE</label><input id="image_file" name="file" class="form-control" placeholder="must be an image file" type="file">
@@ -51,25 +52,38 @@
         <div class="col-sm-12">
             <div class="element-wrapper">
                 <label>List of Products</label>
-
-                <table style="width:100%">
+                <div class="element-box-tp">
+                    <div class="table-responsive">
+                        <table class="table table-padded">
                     <tr>
                         <th>#</th>
                         <th>Name</th>
-                        <th>Price</th>
+                        <th>Price(ETH)</th>
                         <th>Owner</th>
                         <th>Action</th>
                     </tr>
-                    <tr>
-                        <td>sn</td>
-                        <td>name</td>
-                        <td>00</td>
-                        <td>0x0</td>
-                        <td><button>Buy</button></td>
+
+                    {% for product in products %}
+                    <tr class="ProductList">
+                        <td>{{ product.id }}</td>
+                        <td>{{ product.name }}</td>
+                      <td>{{ (product.price/1000000000000000000)|number_format(8, '.', ',') }} </td>
+                        {#<td>{{ product.price }} </td>#}
+                        <td>{{ product.owner }}</td>
+                        <td>
+
+                            {% if product.purchased %}
+                            <label class="label lined-success">purchased</label>
+                            {% else %}
+                            <button type="button" data-product_price="{{ product.price }}" data-product_id="{{ product.id }}" class="btn btn-primary buyProduct">Buy</button>
+                        {% endif %}
+                        </td>
                     </tr>
+                            {% endfor %}
 
                 </table>
-
+                    </div>
+                    </div>
 
 
             </div>

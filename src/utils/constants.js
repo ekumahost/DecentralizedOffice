@@ -209,7 +209,7 @@ module.exports = Object.freeze({ //Iteration over frozen object is no longer slo
         }
     ],
 
-    contract_address: '0x22e29b7667B454d12dF1AE2Fb17bA204a5c347F4'
-
+    contract_address: '0x4c25cce3077a9bfc5c360cd53b2e472be3ddb6eb', // kovan
+   // contract_address: '0x22e29b7667B454d12dF1AE2Fb17bA204a5c347F4', // ganache
 
 });

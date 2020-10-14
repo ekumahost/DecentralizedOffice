@@ -320,49 +320,71 @@ window.addEventListener('load', async () => {
     const web3 = window.web3;
     web3.eth.getAccounts().then(result => {
        // console.log(result);
-         var wallet_address = result[0];
+         const wallet_address = result[0];
 
         $("#walletHolder").html('your wallet: '+result[0]);
         $("#walletAddress").val(result[0]);
-        var first = wallet_address.substring(0, 6);
-        var last = wallet_address.substring(38, 42);
+        const first = wallet_address.substring(0, 6);
+        const last = wallet_address.substring(38, 42);
         $("#desktop_side").html(first + "..."+last);
         $("#APP_CONTENT").show(500);
 
     });
 
     //console.log("ABI LOG", abi_array);
-    const networkID = await web3.eth.net.getId(); // we can validate for network here..
+   // const networkID = await web3.eth.net.getId(); // we can validate for network here..
   // const walletAddress = await web3.eth.getAccounts(); // we can validate for network here..
 
+    web3.eth.net.getNetworkType().then(running_network => {
+        console.log(running_network);
+        // which network are we testing/ running  this app.
+            if(running_network != 'kovan') { // rinkeby // kovan // private
+                 Swal.fire(
+                     'Error!',
+                      "On a wrong network, please switch to Kovan(testnet) network to test this app",
+                     'error'
+                 )
+             }
+    });
 
-    if(networkID){ // if not equal to 1, which is main.
-        const marketplace = new web3.eth.Contract(abi_array, market_contracts_address); // Interact with a smart contract thus:
+
+    const marketplace = new web3.eth.Contract(abi_array, market_contracts_address); // Interact with a smart contract thus:
+
+   try {
+
+       const productCounts = await marketplace.methods.productCount().call();
+       $("#productCounts").html(productCounts);
+
+   }catch (e) {
+     console.log('CATA BOOM', e)
+   }
 
 
-        var productCounts = await marketplace.methods.productCount().call();
 
-        $("#productCounts").html(productCounts);
 
-        // console.log("NET", networkID);
-     //   console.log("MARKET", marketplace);
+/*
+    Promise.all(abi_array.map(function(abi, index){
+        const ma = new web3.eth.Contract(abi, market_contracts_address);
+        return ma.methods.productCount().call()
+    })).then(function(counts){
+        console.log('PROMISE COUNT', counts)
+    });*/
 
-        web3.eth.net.getNetworkType().then(running_network => {
-            // which network are we testing/ running  this app.
-       /*     if(running_network != 'rinkeby') {
-                Swal.fire(
-                    'Error!',
-                    "On a wrong network, please switch to Rinkeby network to test this app",
-                    'error'
-                )
-            }*/
-        });
 
-    }else{
-        // no network
-        console.log("NO deployed to NETWORK!!!");
 
+/*
+
+        // can list products here...
+// loop through the product count
+    for (var i =1; i <= productCounts; i++){
+
+        const products = await marketplace.methods.products(i).call();
+        console.log("PPP", products);
     }
+
+*/
+
+
 
 
     $("#AddProductForm").on("submit", function(e) {
@@ -371,9 +393,9 @@ window.addEventListener('load', async () => {
 
         // submittedd add product form
         // wallet_address
-        var productName = $('#productName').val();
-        var productPrice = window.web3.utils.toWei(parseFloat($('#productPrice').val()).toString(), "Ether");
-        var walletAddress = $('#walletAddress').val();
+        const productName = $('#productName').val();
+        const productPrice = window.web3.utils.toWei(parseFloat($('#productPrice').val()).toString(), "Ether");
+        const walletAddress = $('#walletAddress').val();
      // alert(market_contracts_address);
         //const myMarketplace = new web3.eth.Contract(abi_array, market_contracts_address); // Interact with a smart contract thus:
         const myMarketplace = new web3.eth.Contract(abi_array, market_contracts_address); // Interact with a smart contract thus:
@@ -384,13 +406,16 @@ window.addEventListener('load', async () => {
                     console.log("RECEIPT", receipt);
 
                     $('.createProduct').LoadingOverlay("hide");
-                    $('#AddProductForm').reset();
-
+                   // $('#AddProductForm').reset();
                     Swal.fire(
                         'Done!!',
                         "Product Created",
                         'success'
                     );
+                    setTimeout(function(){
+                        window.location.reload()
+                    }, 5000);
+
 
                 }).catch(err => {
                 console.log("WE CATCH ERROR", err);
@@ -402,56 +427,54 @@ window.addEventListener('load', async () => {
                 )*/
             });
 
+    });
 
-        return false;
-        var post_path = $('#UploadImageForm').attr('action');
-        var fd = new FormData();
-        var files = $('#image_file')[0].files[0];
-        fd.append('image_file', files);
 
-        var contents = $('#UploadImageForm').serialize();
 
-        $.ajax({
-            url: post_path + '?'+contents,
-            type: 'post',
-            data: fd,
-            contentType: false,
-            processData: false,
-            success: function(result){
 
-                // set the url to where he can copy it..
+    $(".buyProduct").on("click", function(e) {
+        $(this).LoadingOverlay("show");
+        const product_id = $(this).data("product_id");
+        const product_price = $(this).data("product_price");
 
-                if(result['status'] === 'success'){
-                    Swal.fire(
-                        'IMAGE URL!',
-                        result['data']['image_url'],
-                        'success'
-                    );
+        //const productPrice = window.web3.utils.toWei(parseFloat($('#productPrice').val()).toString(), "Ether");
+     //   const walletAddress = $('#walletAddress').val();
+        const myMarketplace = new web3.eth.Contract(abi_array, market_contracts_address); // Interact with a smart contract thus:
+        const walletAddress = $('#walletAddress').val();
 
-                }else{
+        myMarketplace.methods.purchaseProduct(product_id).send({ from: walletAddress, value: product_price, gas: 1500000,
+            gasPrice: '20000000000' })
+            .once('receipt', (receipt) => { // transaction receipt from blockchain
+                console.log("RECEIPT", receipt);
 
-                    Swal.fire(
-                        'Error!',
-                        result['message'],
-                        'error'
-                    )
+                $('.buyProduct').LoadingOverlay("hide");
 
-                }
+                Swal.fire(
+                    'Done!!',
+                    "Product Purchased",
+                    'success'
+                );
 
-                $('.uploadButton').LoadingOverlay("hide");
+                setTimeout(function(){
+                    window.location.reload()
+                }, 5000);
 
-            },
-            error: function (e) {
+
+
+
+            }).catch(err => {
+            console.log("WE CATCH ERROR", err);
+            $('.buyProduct').LoadingOverlay("hide");
                 Swal.fire(
                     'Error!',
-                    "Something is wrong, make sure your image is not too large please, try again later..",
+                    "Something is wrong, NB: you cannot purchase your own product(change address)",
                     'error'
                 )
-
-            }
-
         });
 
     });
+
+
+
 
 });

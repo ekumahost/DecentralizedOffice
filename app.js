@@ -44,8 +44,8 @@ const options = {
       }
     },
     servers: [{
-      url: constants.PROTOCOL + constants.SERVER_NAME,
-    //  url: 'https://doofice.link/',
+     // url: constants.PROTOCOL + constants.SERVER_NAME,
+     url: 'https://doffice.ekumaly.com',
       description: constants.SWAGGER.DESCRIPTION,
 
     }],
@@ -71,8 +71,8 @@ app.get('/' + constants.SWAGGER.UI_EXPRESS_ROUTE, (req, res) => {
 const swaggerUi = require('swagger-ui-express');
 let options_i = {
   swaggerOptions: {
-   // url: "https://doffice.link/api-docs.json"
-    url: constants.PROTOCOL + constants.SERVER_NAME + constants.SWAGGER.UI_EXPRESS_ROUTE
+    url: "https://doffice.ekumaly.com/api-docs.json"
+  //  url: constants.PROTOCOL + constants.SERVER_NAME + constants.SWAGGER.UI_EXPRESS_ROUTE
   }
 };
 app.use('/swagger/does/index.html', swaggerUi.serve, swaggerUi.setup(null, options_i));
