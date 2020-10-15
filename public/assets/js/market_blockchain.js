@@ -302,6 +302,13 @@ window.addEventListener('load', async () => {
             //  web3.eth.sendTransaction({/* ... */});
         } catch (error) {
             // User denied account access...
+            Swal.fire(
+                'Error!',
+                "Something is wrong, Denying account access will not let you use this app.",
+                'error'
+            )
+
+
         }
     }
     // Legacy dapp browsers...
@@ -313,6 +320,12 @@ window.addEventListener('load', async () => {
     // Non-dapp browsers...
     else {
         console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+
+        Swal.fire(
+            'Error!',
+            "Non-Ethereum browser detected. You should consider trying MetaMask! on Google Chrome",
+            'error'
+        )
         $("#walletHolder").html('Non-Ethereum browser detected. You should consider trying MetaMask! on Google Chrome');
 
     }

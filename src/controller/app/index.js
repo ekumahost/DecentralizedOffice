@@ -351,45 +351,51 @@ module.exports =  {
 
        // console.log("PRODUCT COUNTER", getProductCount());
 
-            const marketplace = new web3.eth.Contract(abi_array, market_contracts_address); // Interact with a smart contract thus:
+            try {
 
-            const productList = [];
-          marketplace.methods.productCount().call().then(async result =>{
+                const marketplace = new web3.eth.Contract(abi_array, market_contracts_address); // Interact with a smart contract thus:
 
-              for (var i =1; i <= result; i++){
-                  const products = await marketplace.methods.products(i).call();
-                  productList.push(products);
-                  //console.log("PPP--", products);
-              }
+                const productList = [];
+                marketplace.methods.productCount().call().then(async result => {
 
-              console.log(productList);
-              twing.render('market.twig', {
-                  'page_title': "market",
-                  'products_default': [{
-                      name:'Default Product',
-                      id: 2,
-                      price: 30000000000,
-                      owner: '0x466AE3aDa81727B158711F62922E428904ABa05d'
-                  }],
-                  'products': productList,
-                  'params': req.query,
-              }).then((output) => {
-                  res.send(output);
-              })
+                    for (var i = 1; i <= result; i++) {
+                        const products = await marketplace.methods.products(i).call();
+                        productList.push(products);
+                        //console.log("PPP--", products);
+                    }
 
-          }).catch(e =>{
+                    req.session.productList = productList;
 
-              console.log(e)
-          });
+                  //  console.log(productList);
+                    twing.render('market.twig', {
+                        'page_title': "market",
+                        'products': productList,
+                        'params': req.query,
+                    }).then((output) => {
+                        res.send(output);
+                    })
+
+                }).catch(e => {
+
+                    console.log(e)
+                });
+
+            }catch (e) {
+                // we catch error in connections. send
+                console.log("WE CATCH, ", e);
+
+                twing.render('market.twig', {
+                    'page_title': "market",
+                    'products': req.session.productList,
+                    'params': req.query,
+                }).then((output) => {
+                    res.send(output);
+                })
 
 
-
+            }
 
     },
-
-
-
-
 
 };
 
