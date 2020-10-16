@@ -303,8 +303,24 @@ async function getProductCount(){
 
     return await marketplace.methods.productCount().call();
 
-
 }
+
+
+async function getProductList(){
+    const marketplace = new web3.eth.Contract(abi_array, market_contracts_address); // Interact with a smart contract thus:
+    let productCounts = await marketplace.methods.productCount().call();
+
+    let productList = [];
+        for (var i = 1; i <= productCounts; i++) {
+            const products = await marketplace.methods.products(i).call();
+            productList.push(products);
+            //console.log("PPP--", products);
+        }
+
+    return productList;
+}
+
+
 
 
 module.exports =  {
@@ -353,32 +369,41 @@ module.exports =  {
 
             try {
 
-                const marketplace = new web3.eth.Contract(abi_array, market_contracts_address); // Interact with a smart contract thus:
+                //const marketplace = new web3.eth.Contract(abi_array, market_contracts_address); // Interact with a smart contract thus:
 
-                const productList = [];
-                marketplace.methods.productCount().call().then(async result => {
+               // const productList = [];
+              //  marketplace.methods.productCount().call().then(async result => {
 
-                    for (var i = 1; i <= result; i++) {
-                        const products = await marketplace.methods.products(i).call();
-                        productList.push(products);
-                        //console.log("PPP--", products);
-                    }
+                    // for (var i = 1; i <= result; i++) {
+                    //     const products = await marketplace.methods.products(i).call();
+                    //     productList.push(products);
+                    //     //console.log("PPP--", products);
+                    // }
 
-                    req.session.productList = productList;
+                  //  req.session.productList = productList;
 
-                  //  console.log(productList);
+
+                getProductList().then((listOfProduct) => {
+
+                    console.log("PRODUCT LISTER, ",  listOfProduct);
+                    req.session.productList = listOfProduct;
+
                     twing.render('market.twig', {
                         'page_title': "market",
-                        'products': productList,
+                        'products': listOfProduct,
                         'params': req.query,
                     }).then((output) => {
                         res.send(output);
                     })
 
-                }).catch(e => {
+                });
+
+                  //  console.log(productList);
+
+           /*    }).catch(e => {
 
                     console.log(e)
-                });
+                });*/
 
             }catch (e) {
                 // we catch error in connections. send

@@ -13,3 +13,5 @@ RUNNING with DOCKER: (not suppoting nodemon yet)
 ::: authomate with nodemon script(nodemon --exec 'mocha -R min)
 
 
+on push : sudo chmod 777 src/routes/uploads
+sudo chmod 777 uploads
