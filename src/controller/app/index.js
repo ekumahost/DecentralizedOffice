@@ -1,8 +1,10 @@
 
 const Web3 = require('web3');
-
+// https://davekiss.com/ethereum-web3-node-tutorial/
 //let web3 = new Web3('ws://127.0.0.1:7545');
-let web3 = new Web3('wss://kovan.infura.io/ws/v3/70beb59692f54291923fe85d2589bae6');
+//let web3 = new Web3('wss://kovan.infura.io/ws/v3/70beb59692f54291923fe85d2589bae6');
+let web3 = new Web3(new Web3.providers.HttpProvider(process.env.http_provider));
+
 let abi_array = [
     {
         "inputs": [],
@@ -295,15 +297,15 @@ let abi_array = [
     }
 ];
 //let market_contracts_address = '0x22e29b7667B454d12dF1AE2Fb17bA204a5c347F4'; // ganache
-let market_contracts_address = '0x4c25cce3077a9bfc5c360cd53b2e472be3ddb6eb'; // kovan
+let market_contracts_address = process.env.market_contracts_address;
 
-async function getProductCount(){
+/*async function getProductCount(){
 
     const marketplace = new web3.eth.Contract(abi_array, market_contracts_address); // Interact with a smart contract thus:
 
     return await marketplace.methods.productCount().call();
 
-}
+}*/
 
 
 async function getProductList(){
@@ -316,7 +318,6 @@ async function getProductList(){
             productList.push(products);
             //console.log("PPP--", products);
         }
-
     return productList;
 }
 
@@ -385,7 +386,7 @@ module.exports =  {
 
                 getProductList().then((listOfProduct) => {
 
-                    console.log("PRODUCT LISTER, ",  listOfProduct);
+                 //   console.log("PRODUCT LISTER, ",  listOfProduct);
                     req.session.productList = listOfProduct;
 
                     twing.render('market.twig', {

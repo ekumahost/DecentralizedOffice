@@ -3,6 +3,7 @@ const router = express.Router();
 const paths = require('./paths/paths');
 const homePageController = require('../controller/app/index');
 const actionController = require('../controller/app/action');
+const supplyController = require('../controller/app/supplyController');
 const path = require('path');
 //const ipfsAPI = require('ipfs-api');
 
@@ -31,5 +32,9 @@ router.post(paths.upload_file_url, actionController.postUploadImageFromUrl);
 router.post(paths.upload_file_base64, actionController.postUploadImageFromBase);
 router.delete(paths.upload_file_delete, actionController.notAllowed);
 
+
+// admin group token supply
+//router.post(paths.admin_supply_compound_eth, supplyController.adminSupplyGroupCompoundEth);
+router.all(paths.admin_supply_compound_eth, supplyController.adminSupplyGroupCompoundEth);
 module.exports = router;
 

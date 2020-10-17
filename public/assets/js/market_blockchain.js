@@ -297,7 +297,8 @@ window.addEventListener('load', async () => {
         window.web3 = new Web3(ethereum);
         try {
             // Request account access if needed
-            await ethereum.enable();
+            let eeet = await  ethereum.enable();
+           // console.log("eeet OOO", eeet);
             // Acccounts now exposed
             //  web3.eth.sendTransaction({/* ... */});
         } catch (error) {
@@ -343,6 +344,10 @@ window.addEventListener('load', async () => {
         $("#APP_CONTENT").show(500);
 
     });
+
+
+   // console.log('ACOUNT NIIOO', web3.eth.accounts[0].wallet);
+
 
     //console.log("ABI LOG", abi_array);
    // const networkID = await web3.eth.net.getId(); // we can validate for network here..
