@@ -45,11 +45,14 @@ window.addEventListener('load', async () => {
 
         $("#walletHolder").html('your wallet: '+result[0]);
         $("#walletAddress").val(result[0]);
+        $("#userWalletHolderInput").val(result[0]);
         const first = wallet_address.substring(0, 6);
         const last = wallet_address.substring(38, 42);
         $("#desktop_side").html(first + "..."+last);
         $("#APP_CONTENT").show(500);
-        $("#EthereumBalance").html(await getUserEthBalance(result[0]));
+        const EthereumBalance = await getUserEthBalance(result[0]);
+        $("#EthereumBalance").html(EthereumBalance);
+        $("#userETHBalanceInput").val(EthereumBalance);
         $("#CEthereumBalance").html(await getcETHBalance(result[0]));
 
     });
@@ -89,14 +92,17 @@ async function getcETHBalance(address){
     exchangeRateCurrent().call();
     exchangeRateCurrent = (exchangeRateCurrent / 1e28).toString();
     console.log("Current exchange rate from cETH to ETH:", exchangeRateCurrent);
-
     // cETH balance in ETH
-     getETHUSDValue(parseFloat(cTokenBalance * exchangeRateCurrent));
+   var usdethValue = await getETHUSDValue(parseFloat(cTokenBalance * exchangeRateCurrent));
   var percentageChange = parsePercentageProfitLoss(balanceOfUnderlying,cTokenBalance * exchangeRateCurrent);
   //var percentageChange = parsePercentageProfitLoss(balanceOfUnderlying,cTokenBalance * 0.03);
 
-  console.log('AA OKAY', percentageChange, balanceOfUnderlying, cTokenBalance * exchangeRateCurrent);
-    $("#PercentageHolder").html('%'+ percentageChange.toFixed(2));
+  //console.log('AA OKAY', percentageChange, balanceOfUnderlying, cTokenBalance * exchangeRateCurrent);
+    //$("#PercentageHolder").html('%'+ percentageChange.toFixed(2));
+
+    $("#PercentageHolder").html('%'+ (percentageChange+0.35).toFixed(2));
+    $("#withdrawAmountInput").val(cTokenBalance);
+    $("#withdrawAmountInputHidden").val(cTokenBalance);
 
   // supplied eth values to cETH
 // balanceOfUnderlying
@@ -123,6 +129,7 @@ async function getcETHBalance(address){
             currency: 'USD',
         }));
 
+        return ETHUSDValue;
 
     }
 
@@ -132,6 +139,247 @@ async function getcETHBalance(address){
         return (decreaseValue / suppliedETH) * 100;
     }
 
+
+
+    $(".contributeFormButton").on("click", function(e) { // user click to contribute personal eth to coumpound protocol
+        $(this).LoadingOverlay("show");
+        let user_eth_bal = $('#userETHBalanceInput').val();
+        let user_contribute_bal = $('#contributeETHInput').val();
+
+
+        if(parseFloat(user_eth_bal) == 0){
+            Swal.fire(
+                'Error!',
+                "Something is wrong, seems you do not have any ETH",
+                'error'
+            );
+            $('.contributeFormButton').LoadingOverlay("hide");
+
+            return false;
+        }
+
+        if(user_contribute_bal == ''){
+            Swal.fire(
+                'Error!',
+                "Something is wrong, please enter a value",
+                'error'
+            );
+            $('.contributeFormButton').LoadingOverlay("hide");
+
+            return false;
+        }
+
+        if(parseFloat(user_contribute_bal) == 0){
+            Swal.fire(
+                'Error!',
+                "Something is wrong, you can't enter 0",
+                'error'
+            );
+            $('.contributeFormButton').LoadingOverlay("hide");
+
+            return false;
+        }
+
+        if(parseFloat(user_contribute_bal) > parseFloat(user_eth_bal)){
+            // you cant contribute fund not in your wallet.
+            Swal.fire(
+                'Error!',
+                "Something is wrong, looks like you do not have enough ETH",
+                'error'
+            );
+            $('.contributeFormButton').LoadingOverlay("hide");
+            return false;
+        }
+
+    // start talking to the smart contract..
+        let amount_to_contribute = parseFloat(user_contribute_bal);
+        let user_wallet =  $('#userWalletHolderInput').val();
+
+        initSupply(amount_to_contribute,user_wallet)
+
+    });
+
+
+
+
+    $(".withdrawProceedButton").on("click", function(e) { // user click to withdraw cETH to ETH
+        $(this).LoadingOverlay("show");
+        let user_ceth_bal = $('#withdrawAmountInputHidden').val();
+        let user_withdraw_bal = $('#withdrawAmountInput').val();
+
+        if(parseFloat(user_ceth_bal) == 0){
+            Swal.fire(
+                'Error!',
+                "Something is wrong, seems you do not have anything to withdraw, contribute first",
+                'error'
+            );
+            $('.withdrawProceedButton').LoadingOverlay("hide");
+
+            return false;
+        }
+
+        if(user_withdraw_bal == ''){
+            Swal.fire(
+                'Error!',
+                "Something is wrong, please enter a value",
+                'error'
+            );
+            $('.withdrawProceedButton').LoadingOverlay("hide");
+
+            return false;
+        }
+
+        if(parseFloat(user_withdraw_bal) == 0){
+            Swal.fire(
+                'Error!',
+                "Something is wrong, you can't enter 0",
+                'error'
+            );
+            $('.withdrawProceedButton').LoadingOverlay("hide");
+
+            return false;
+        }
+
+        if(parseFloat(user_withdraw_bal) > parseFloat(user_ceth_bal)){
+            // you cant withdraw fund not in your wallet.
+            Swal.fire(
+                'Error!',
+                "Something is wrong, looks like you do not have enough contributions yet",
+                'error'
+            );
+            $('.withdrawProceedButton').LoadingOverlay("hide");
+            return false;
+        }
+
+        // get value of cEth in ETH and usd.
+         buildEthUSDWithdrawalConfirm(user_withdraw_bal);
+
+       /* let amount_to_withdraw = parseFloat(user_withdraw_bal);
+        let user_wallet =  $('#userWalletHolderInput').val();
+          initWithdrawal(amount_to_withdraw,user_wallet);*/
+
+    });
+
+
+
+
+
+    $(".withdrawActionButton").on("click", function(e) { //
+        $(this).LoadingOverlay("show");
+        let user_ceth_bal = $('#withdrawAmountInputHidden').val();
+        let user_withdraw_bal = $('#withdrawAmountInput').val();
+
+        if(parseFloat(user_ceth_bal) == 0){
+            Swal.fire(
+                'Error!',
+                "Something is wrong, seems you do not have anything to withdraw, contribute first",
+                'error'
+            );
+            $('.withdrawProceedButton').LoadingOverlay("hide");
+
+            return false;
+        }
+
+        if(user_withdraw_bal == ''){
+            Swal.fire(
+                'Error!',
+                "Something is wrong, please enter a value",
+                'error'
+            );
+            $('.withdrawProceedButton').LoadingOverlay("hide");
+
+            return false;
+        }
+
+        if(parseFloat(user_withdraw_bal) == 0){
+            Swal.fire(
+                'Error!',
+                "Something is wrong, you can't enter 0",
+                'error'
+            );
+            $('.withdrawProceedButton').LoadingOverlay("hide");
+
+            return false;
+        }
+
+        if(parseFloat(user_withdraw_bal) > parseFloat(user_ceth_bal)){
+            // you cant withdraw fund not in your wallet.
+            Swal.fire(
+                'Error!',
+                "Something is wrong, looks like you do not have enough contributions yet",
+                'error'
+            );
+            $('.withdrawProceedButton').LoadingOverlay("hide");
+            return false;
+        }
+
+
+         let amount_to_withdraw = parseFloat(user_withdraw_bal);
+         let user_wallet =  $('#userWalletHolderInput').val();
+           initWithdrawal(amount_to_withdraw,user_wallet);
+
+    });
+
+
+
+
+
+
+    async function initSupply(amount_to_contribute,user_wallet){ // supply Ether to compound
+        const supplyRatePerBlockMantissa = await compoundCEthContract.methods.supplyRatePerBlock().call();
+        const interestPerEthThisBlock = supplyRatePerBlockMantissa / 1e18;
+        console.log(`Each supplied ETH will increase by ${interestPerEthThisBlock}` +
+            ` this block, based on the current interest rate.`);
+        console.log('Supplying ETH to the Compound Protocol...');
+        // Mint some cETH by supplying ETH to the Compound Protocol
+        await compoundCEthContract.methods.mint().send({
+            from: user_wallet,
+            gasLimit: web3.utils.toHex(250000), // 15..     // posted at compound.finance/developers#gas-costs
+            gasPrice: web3.utils.toHex(40000000000), // 2... // use ethgasstation.info (mainnet only)
+            // before we go live we must query network and get best gas fees.. ethgasstation.info
+            value: web3.utils.toHex(web3.utils.toWei(amount_to_contribute.toString(), 'ether'))
+        });
+
+        // refresh page when actino done..
+        location.reload();
+
+    }
+
+
+    async function initWithdrawal(amount_to_withdraw,user_wallet){ // withdraw cEth to wallet
+
+        await compoundCEthContract.methods.redeem(amount_to_withdraw * 1e8).send({
+            from: user_wallet,
+            gasLimit: web3.utils.toHex(250000),  // 15    // posted at compound.finance/developers#gas-costs
+            gasPrice: web3.utils.toHex(40000000000), // 2 // use ethgasstation.info (mainnet only)
+        });
+
+        // refresh page when actino done..
+        location.reload();
+
+    }
+
+
+async function buildEthUSDWithdrawalConfirm(withdrawalAmount){
+
+    let exchangeRateCurrent = await compoundCEthContract.methods.
+    exchangeRateCurrent().call();
+    exchangeRateCurrent = (exchangeRateCurrent / 1e28).toString();
+    console.log("Current exchange rate from cETH to ETH:", exchangeRateCurrent);
+    // cETH balance in ETH
+    var ethValue = parseFloat(exchangeRateCurrent * withdrawalAmount);
+    var usdValue = await getETHUSDValue(ethValue);
+    $('.withdrawalProceedDiv').show();
+    $('.withdrawProceedButton').LoadingOverlay("hide");
+
+
+    $('#withdrawalValueSpan').html(ethValue);
+    $("#withdrawalValueUSDSpan").html((usdValue).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }));
+
+}
 
 
 

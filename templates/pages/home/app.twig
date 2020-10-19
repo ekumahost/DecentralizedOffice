@@ -50,9 +50,9 @@
 
                             <div class="element-box-tp ">
                                 <hr>
-                                <button id="" type="button" class="btn btn-secondary">Deposit</button>
-                                <button id="" type="button" class="btn btn-secondary">Withdraw</button>
-                                <button id="" type="button" class="btn btn-secondary">Exchange</button>
+                                <button data-target="#fiatModal" data-toggle="modal" type="button" class="btn btn-secondary">Deposit</button>
+                                <button data-target="#fiatModal" data-toggle="modal" type="button" class="btn btn-secondary">Withdraw</button>
+                                <button data-target="#fiatModal" data-toggle="modal" type="button" class="btn btn-secondary">Exchange</button>
                             </div>
                             </span>
 
@@ -127,8 +127,9 @@
             </div>
             <div class="element-wrapper pb-4 mb-4 border-bottom">
                 <div class="element-box-tp">
-                    <a class="btn btn-primary" href="#"><i class="os-icon os-icon-refresh-ccw"></i><span>Contribute Money</span></a>
-                    <a class="btn btn-grey" href="#"><i class="os-icon os-icon-log-out"></i><span>Withdraw</span></a>
+                    <a class="btn btn-primary" href="#" data-target=".contributeMoneySmallModal" data-toggle="modal"><i class="os-icon os-icon-refresh-ccw"></i><span>Contribute Money</span></a>
+
+                    <a class="btn btn-grey" href="#" data-target=".withdrawMoneySmallModal" data-toggle="modal"><i class="os-icon os-icon-log-out"></i><span>Withdraw</span></a>
                     {#<a class="btn btn-grey d-none d-sm-inline-block" href="#"><i class="os-icon os-icon-plus-circle"></i><span>Add Wallet</span></a>#}
 
                 </div>
@@ -280,4 +281,121 @@
 
     </div>
 
+</div>
+
+
+
+
+<div aria-labelledby="contributeMoneySmallModal" class="modal fade contributeMoneySmallModal" role="dialog" tabindex="-1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Contribute Fund
+                </h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
+            </div>
+            <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="">Asset</label><select class="form-control" tabindex="0">
+                            <option value="eth">ETH</option>
+                            <option value="" disabled> USDT </option>
+                            <option value="" disabled> FIAT </option>
+                            <option value="" disabled> DAI </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input id="userETHBalanceInput" class="form-control" type="hidden">
+                        <input id="userWalletHolderInput" class="form-control" type="hidden">
+                        <label for=""> Amount(ETH)</label><input id="contributeETHInput" class="form-control" placeholder="Amount" type="number">
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button><button class="btn btn-primary contributeFormButton" type="button">Contribute</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div aria-labelledby="withdrawMoneySmallModal" class="modal fade withdrawMoneySmallModal" role="dialog" tabindex="-1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Withdraw Fund
+                </h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
+            </div>
+            <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="">Asset</label><select class="form-control" tabindex="0">
+                            <option value="eth">ETH</option>
+                            <option value="" disabled> USDT </option>
+                            <option value="" disabled> FIAT </option>
+                            <option value="" disabled> DAI </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input id="userETHBalanceInput" class="form-control" type="hidden">
+                        <input id="userWalletHolderInput" class="form-control" type="hidden">
+                        <label for=""> Amount(cETH)</label>
+                        <input id="withdrawAmountInputHidden"  class="form-control" type="hidden">
+                        <input id="withdrawAmountInput" value="0" class="form-control" type="number">
+                    </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
+                <button class="btn btn-primary withdrawProceedButton" type="button">Proceed</button>
+
+            </div>
+
+
+            <div class="withdrawalProceedDiv" style="display: none;padding: 20px">
+                <hr>
+                you will get ETH: <h3 id="withdrawalValueSpan">0</h3> <br>
+                <h3 id="withdrawalValueUSDSpan">$0</h3><br><br>
+                <button class="btn btn-primary withdrawActionButton" type="button">Withdraw Now!</button>
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="onboarding-modal modal fade animated" id="fiatModal" role="dialog" tabindex="-1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-centered" role="document">
+        <div class="modal-content text-center">
+            <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span class="close-label">close</span><span class="os-icon os-icon-close"></span></button>
+            <div class="onboarding-media">
+                {#<img alt="" src="img/bigicon2.png" width="200px">#}
+            </div>
+            <div class="onboarding-content with-gradient">
+                <h4 class="onboarding-title">
+                   Fiat Deposit and Withdrawal
+                </h4>
+                <div class="onboarding-text">
+                   Fiat Deposit will let you deposit fiat in your local currency to your ETH Wallet and get fast exchange to ERC20 token and Ether.
+                </div>
+                <br>
+                <span style="color: brown" class="close-label">coming soon!!</span>
+            </div>
+        </div>
+    </div>
 </div>

@@ -52,7 +52,6 @@ const companyWalletAddress = web3.eth.accounts.wallet[0].address;
      console.log("My wallet's cETH Token Balance:", cTokenBalance);
 }
 
-
 async function getCETHBalance() { //  get balance of ETH and cETH after supply
     // we will get balance from front end before query
     const _balanceOfUnderlying = await compoundCEthContract.methods
