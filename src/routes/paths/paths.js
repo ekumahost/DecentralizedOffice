@@ -10,7 +10,7 @@ module.exports =
         'upload_file_delete': '/upload/image/delete',
 
 
-
             // admin supply ends..
         'admin_supply_compound_eth': '/supply/compound/eth/admin',
+        'admin_withdraw_compound_eth': '/withdraw/compound/eth/admin',
     };

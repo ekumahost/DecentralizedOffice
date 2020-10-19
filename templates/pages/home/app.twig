@@ -1,200 +1,196 @@
-<script>
-
-    //   var web3 = new Web3(Web3.givenProvider || "ws://localhost:7545");
-    var web3 = new Web3(Web3.givenProvider);
-
-    //   console.log("WEB DUM DUM....",web3)
-
-    //console.log(web3.version);
-    console.log(web3);
-    //console.log(web3.eth.net.getNetworkType());
-
-    web3.eth.net.getNetworkType().then(result => {
-        console.log(result);
-    });
-
-
-    web3.eth.getAccounts().then(result => {
-        console.log(result);
-
-        $("#walletHolder").html('your wallet: '+result[0]);
-    });
-
-
-    /*   web3.eth.providers().then(result => {
-           console.log('CURRENT PROVIDER THING', result);
-       });*/
-
-    $(document).ready(function(){
-// https://ethereum.stackexchange.com/questions/43572/how-to-auto-reload-dapp-when-metamask-is-unlocked-or-locked-by-user
-        // connect metamask
-        //   window.ethereum.enable();
-        console.log('CURRENT PROVIDER THING', web3.eth.providers);
-    });
-
-
-    window.addEventListener('load', async () => {
-        // Modern dapp browsers...
-        if (window.ethereum) {
-            window.web3 = new Web3(ethereum);
-            try {
-                // Request account access if needed
-                await ethereum.enable();
-                // Acccounts now exposed
-                console.log("account exposed")
-                 //web3.eth.sendTransaction({/* ... */});
-            } catch (error) {
-                // User denied account access...
-                console.log("user denied")
-
-            }
-        }
-        // Legacy dapp browsers...
-        else if (window.web3) {
-            window.web3 = new Web3(web3.currentProvider);
-            // Acccounts always exposed
-            console.log("account exposed legacy")
-
-            // web3.eth.sendTransaction({/* ... */});
-        }
-        // Non-dapp browsers...
-        else {
-            console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
-        }
-    });
-
-
-
-    /*
-
-                window.addEventListener('load', () => {
-                    // Wait for loading completion to avoid race conditions with web3 injection timing.
-                    if (window.ethereum) {
-                        const web3 = new Web3(window.ethereum);
-                        try {
-                            // Request account access if needed
-                             window.ethereum.enable();
-                            // Acccounts now exposed
-                            return web3;
-                        } catch (error) {
-                            console.error(error);
-                        }
-                    }
-                    // Legacy dapp browsers...
-                    else if (window.web3) {
-                        // Use Mist/MetaMask's provider.
-                        const web3 = window.web3;
-                        console.log('Injected web3 detected.');
-                        return web3;
-                    }
-                    // Fallback to localhost; use dev console port by default...
-                    else {
-                        const provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545');
-                        const web3 = new Web3(provider);
-                        console.log('No web3 instance injected, using Local web3.');
-                        return web3;
-                    }
-                });
-
-                console.log("web 3 BOOMS,", web3.eth);
-                console.log("web 3 BOOM,", web3.eth.coinbase);
-    */
-
-    // $("#address").val(web3.eth.accounts[0]);
-</script>
-
-
-
-
-
-
-
 <div class="content-box">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="element-wrapper">
 
-                <h6 class="element-header">
-                    <label id="walletHolder">Please connect wallet:
-                         <a href=""> <button id="" type="button" class="btn btn-secondary">Connect</button></a>
-                    </label>
-                </h6>
-                <div class="element-content">
+
+
+
+    <div id="APP_CONTENT" style="display: none;">
+
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="element-wrapper">
+
                     <div class="row">
-                        <div class="col-sm-4 col-xxxl-3">
-                            <a class="element-box el-tablo" href="#">
-                                <div class="label">
-                                    Active Savings
-                                </div>
-                                <div class="value">
-                                    {{ 22 }}
-                                </div>
-                                <div class="trending trending-up-basic">
-                                    <span>&#8358; {{ 34000|number_format(2, '.', ',') }}</span><i class="os-icon os-icon-arrow-up2"></i>
-                                </div>
-                            </a>
+                        <div class="col-sm-12">
+                            <div class="element-wrapper">
+                                <label id="walletHolder">WALLET NOT CONNECTED YET, PLEASE CONNECT FROM METAMASK AND OTHERS</label> <br>
+                            </div>
                         </div>
-                        <div class="col-sm-4 col-xxxl-3">
-                            <a class="element-box el-tablo" href="#">
-                                <button id="" type="button" class="btn btn-secondary">Save</button>
-                                <button id="" type="button" class="btn btn-secondary">Borrow</button>
+                    </div>
 
-                            </a>
-                        </div>
-                        <div class="col-sm-4 col-xxxl-3">
-                            <a class="element-box el-tablo" href="{{ paths.wallet }}">
+                    <div class="element-content">
+                        <div class="row">
+                            <div class="col-sm-6 col-xxxl-3">
+                                <a class="element-box el-tablo" href="#">
+                                    <div class="label">
+                                        Group Savings
+                                    </div>
+                                    <div class="value">
+                                        {{ 4 }}
+                                    </div>
+                                    <div class="trending trending-up-basic">
+                                        <span>${{ 750|number_format(2, '.', ',') }}</span><i class="os-icon os-icon-arrow-up2"></i>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="col-sm-6 col-xxxl-3">
+
+
+
+                            <span class="element-box el-tablo">
                                 <div class="label">
                                     My Wallet
                                 </div>
 
                                 <div class="trending trending-up-basic">
-                                    FIAT: <span>&#8358; {{ 400000|number_format(2, '.', ',') }}</span><i class="os-icon os-icon-arrow-up2"></i>
+                                    FIAT: <span>${{ 1250|number_format(2, '.', ',') }}</span><i class="os-icon os-icon-arrow-up2"></i>
                                 </div>
 
-                                <div class="trending trending-up-basic">
-                                    income:  <span>&#8358; {{ 560000|number_format(2, '.', ',') }}</span><i class="os-icon os-icon-arrow-up2"></i>
-                                </div>
-                            </a>
+                            <div class="element-box-tp ">
+                                <hr>
+                                <button id="" type="button" class="btn btn-secondary">Deposit</button>
+                                <button id="" type="button" class="btn btn-secondary">Withdraw</button>
+                                <button id="" type="button" class="btn btn-secondary">Exchange</button>
+                            </div>
+                            </span>
+
+
+
+                            </div>
+
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-
-    Welcome,
-    <br>
-    <br>
-
-
-
-    <div class="element-wrapper">
-        <h6 class="element-header">
-            My Savings
-        </h6>
-        <div class="element-box-tp">
-            <div class="table-responsive">
-                <table class="table table-padded">
-                    <thead>
-
-                    <tr>
-                        <th>Status</th>
-                        <th class="text-right"> Amount </th>
-
-                        <th class="text-center"> Detail </th>
-                        <th> End Date </th>
-                        <th> Action </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-
-                    {% for spon in invests %}
+        <hr>
+        <div class="col-sm-12 col-lg-8 col-xxl-6">
+            <div class="element-balances justify-content-between mobile-full-width">
+                <div class="balance balance-v2">
+                    <div class="balance-title">
+                        My Personal Contributions
+                    </div>
+                    <div class="balance-value">
+                        <span id="TotalSavingsBalance" class="">--</span>
+                        <span class="trending trending-up-basic">
+                        <span id="PercentageHolder">%0</span>
+                        <i class="os-icon os-icon-arrow-2-up"></i></span>
+                    </div>
+                    cETH: <span id="CEthereumBalance" class="">0.00</span>
+                </div>
+                <div class="balance-table pl-sm-2">
+                    <table class="table table-lightborder table-bordered table-v-compact mb-0">
+                        <tbody><tr>
+                            <td>
+                                <strong title="Original Balance" id="EthereumBalance">0.00</strong>
+                                <div class="balance-label smaller lighter text-nowrap">
+                                    Etherium ETH
+                                </div>
+                            </td>
+                            <td>
+                                <strong>0.00</strong>
+                                <div class="balance-label smaller lighter text-nowrap">
+                                    Bitcoin BTC
+                                </div>
+                            </td>
+                            <td class="d-sm-none d-xxxxl-table-cell d-md-table-cell d-xxl-none">
+                                <strong>${{ 1250|number_format(2, '.', ',') }}</strong>
+                                <div class="balance-label smaller lighter text-nowrap">
+                                    FIAT (USD)
+                                </div>
+                            </td>
+                        </tr>
                         <tr>
+                            <td>
+                                <strong>0.00</strong>
+                                <div class="balance-label smaller lighter text-nowrap">
+                                    Tether USDT
+                                </div>
+                            </td>
+                            <td>
+                                <strong>0.00</strong>
+                                <div class="balance-label smaller lighter text-nowrap">
+                                    Dai DAI
+                                </div>
+                            </td>
+                            <td class="d-sm-none d-xxxxl-table-cell d-md-table-cell d-xxl-none">
+                                <strong>0.00</strong>
+                                <div class="balance-label smaller lighter text-nowrap">
+                                    COMP CGT
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody></table>
+                </div>
+            </div>
+            <div class="element-wrapper pb-4 mb-4 border-bottom">
+                <div class="element-box-tp">
+                    <a class="btn btn-primary" href="#"><i class="os-icon os-icon-refresh-ccw"></i><span>Contribute Money</span></a>
+                    <a class="btn btn-grey" href="#"><i class="os-icon os-icon-log-out"></i><span>Withdraw</span></a>
+                    {#<a class="btn btn-grey d-none d-sm-inline-block" href="#"><i class="os-icon os-icon-plus-circle"></i><span>Add Wallet</span></a>#}
 
-                            <td class="nowrap">  <span class="status-pill smaller
+                </div>
+            </div>
+            <div class="element-wrapper compact">
+                <div class="element-box-tp">
+                    <div class="element-actions d-none d-sm-block">
+                        <form class="form-inline justify-content-sm-end">
+                            <label class="smaller" for="">Show Period:</label><select class="form-control form-control-sm form-control-faded">
+                                <option selected="true">
+                                    Last 30 days
+                                </option>
+                                <option>
+                                    This Week
+                                </option>
+                                <option>
+                                    This Month
+                                </option>
+                                <option>
+                                    Today
+                                </option>
+                            </select>
+                        </form>
+                    </div>
+                    <h6 class="element-box-header">
+                        Balance History
+                    </h6>
+                    <div class="el-chart-w"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                        <canvas data-chart-data="13,28,19,24,43,49,40,35,42,46,38,32,45" height="204" id="liteLineChartV3" width="1234" class="chartjs-render-monitor" style="display: block; height: 102px; width: 617px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+
+        <div class="element-wrapper">
+            <h6 class="element-header">
+                Group Savings
+            </h6>
+            <div class="element-box-tp">
+                <div class="table-responsive">
+                    <table class="table table-padded">
+                        <thead>
+
+                        <tr>
+                            <th>Status</th>
+                            <th class="text-right"> Amount </th>
+
+                            <th class="text-center"> Detail </th>
+                            <th> End Date </th>
+                            <th> Action </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        {% for spon in invests %}
+                            <tr>
+
+                                <td class="nowrap">  <span class="status-pill smaller
 
                         {% if spon.status == 'Running'  %} green {% endif %}
                         {% if spon.status == 'Paid Out'  %} green {% endif %}
@@ -203,106 +199,85 @@
                         {% if spon.status == 'Deleted' %} red {% endif %}
 
 "></span>
-                                <span>{{ spon.status }}</span>
-                                <hr>
+                                    <span>{{ spon.status }}</span>
+                                    <hr>
 
-                                {% if spon.start_date %}
-                                    <span>subscription</span><span class="smaller lighter">{{ spon.start_date |date('F jS, Y') }}</span><br>
+                                    {% if spon.start_date %}
+                                        <span>subscription</span><span class="smaller lighter">{{ spon.start_date |date('F jS, Y') }}</span><br>
 
-                                {% else %}
+                                    {% else %}
 
-                                    <span>subscription</span><span class="smaller lighter">Pending</span><br>
+                                        <span>subscription</span><span class="smaller lighter">Pending</span><br>
 
-                                {% endif %}
+                                    {% endif %}
 
-                            </td>
+                                </td>
 
-                            <td class="text-right bolder nowrap">  <span class="text-success">&#8358;{{ (spon.unit_price*spon.units)|number_format(2, '.', ',') }}  </span> <hr>
-                                <span>ROI</span><span class="smaller lighter">{{ spon.roi }}%</span>
+                                <td class="text-right bolder nowrap">  <span class="text-success">&#8358;{{ (spon.unit_price*spon.units)|number_format(2, '.', ',') }}  </span> <hr>
+                                    <span>ROI</span><span class="smaller lighter">{{ spon.roi }}%</span>
 
-                            </td>
-
-
-                            <td class="cell-with-media">   <span>{{ spon.title }}</span>
-                                <hr>
-                                <span>Units</span><span class="smaller lighter">{{ spon.units }}</span><br>
-                                <span>price</span><span class="smaller lighter">&#8358;{{ spon.unit_price|number_format(2, '.', ',') }}</span>
-                            </td>
-
-                            <td>
-                                {#<span>Ends in </span><span class="smaller lighter"><script type="text/javascript">document.write(moment({{ spon.createdAt }}, "YYYYMMDD").fromNow());</script></span>#}
-
-                                {% if spon.start_date %}
-                                    <span></span><span class="smaller lighter">{{ spon.end_date|date('F jS, Y') }}</span>
-
-                                {% else %}
-                                    <span></span><span class="smaller lighter">Pending</span>
+                                </td>
 
 
-                                {% endif %}
+                                <td class="cell-with-media">   <span>{{ spon.title }}</span>
+                                    <hr>
+                                    <span>Units</span><span class="smaller lighter">{{ spon.units }}</span><br>
+                                    <span>price</span><span class="smaller lighter">&#8358;{{ spon.unit_price|number_format(2, '.', ',') }}</span>
+                                </td>
+
+                                <td>
+                                    {#<span>Ends in </span><span class="smaller lighter"><script type="text/javascript">document.write(moment({{ spon.createdAt }}, "YYYYMMDD").fromNow());</script></span>#}
+
+                                    {% if spon.start_date %}
+                                        <span></span><span class="smaller lighter">{{ spon.end_date|date('F jS, Y') }}</span>
+
+                                    {% else %}
+                                        <span></span><span class="smaller lighter">Pending</span>
 
 
+                                    {% endif %}
+                                </td>
 
-                            </td>
+                                <td class="text-center">   <button class="badge badge-success withdraw_fund_button">Withdraw funds</button>
+                                    <hr>
+                                    <span>Profit</span><span class="smaller lighter text-success">&#8358; {{  (spon.roi/100*(spon.unit_price*spon.units)) |number_format(2, '.', ',') }}</span><br>
+                                    <span>Income</span><span class="smaller lighter">&#8358;{{ ((spon.unit_price*spon.units) + (spon.roi/100*(spon.unit_price*spon.units))) |number_format(2, '.', ',') }}</span>
 
+                                </td>
+                            </tr>
+                        {% endfor %}
 
-                            <td class="text-center">   <button class="badge badge-success withdraw_fund_button">Withdraw funds</button>
-                                <hr>
-                                <span>Profit</span><span class="smaller lighter text-success">&#8358; {{  (spon.roi/100*(spon.unit_price*spon.units)) |number_format(2, '.', ',') }}</span><br>
-                                <span>Income</span><span class="smaller lighter">&#8358;{{ ((spon.unit_price*spon.units) + (spon.roi/100*(spon.unit_price*spon.units))) |number_format(2, '.', ',') }}</span>
-
-                            </td>
-
-
-                        </tr>
-                    {% endfor %}
-
-
-
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
 
-
-
-
-
-
-    <div class="col-lg-12 col-xxl-6">
-        <!--START - MESSAGE ALERT-->
-        <div class="alert alert-warning borderless">
-            <h5 class="alert-heading">
-                How it works
-            </h5>
+        <div class="col-lg-12 col-xxl-6">
+            <!--START - MESSAGE ALERT-->
+            <div class="alert alert-warning borderless">
+                <h5 class="alert-heading">
+                    How it works
+                </h5>
                 <h2>Personal Saving</h2>
-            <p>Save your money in FIAT or Stable Coin, our app convert your FIAT to Stable coin and auto select best protocol to invest/stake on your behalf to earn passive</p>
+                <p>Save your money in FIAT or Stable Coin, our app convert your FIAT to Stable coin and auto select best protocol to invest/stake on your behalf to earn passive</p>
 
-            <h2>Credit Union</h2>
-            <p>Create a group; users can join and contribute funds to the pool, earnings are shared based on Esusu rules in hours with higher income for all.</p>
+                <h2>Credit Union</h2>
+                <p>Create a group; users can join and contribute funds to the pool, earnings are shared based on Esusu rules in hours with higher income for all.</p>
 
-            <h2>Loans</h2>
-            <p>Borrow in an overcollateralized (perpetually) or undercollateralized (one-block liquidity) style.</p>
+                <h2>Loans</h2>
+                <p>Borrow in an overcollateralized (perpetually) or undercollateralized (one-block liquidity) style.</p>
 
-            <h2>File Storage</h2>
-            <p>Get access seamless/resilient upload of Images/files to IPFS via web interface and get secured url </p>
+                <h2>File Storage</h2>
+                <p>Get access seamless/resilient upload of Images/files to IPFS via web interface and get secured url </p>
 
-            <h2>CDN API</h2>
-            <p>JSON based API Support for image and file upload via Image URI, Image URL, Base64 format, etc</p>
+                <h2>CDN API</h2>
+                <p>JSON based API Support for image and file upload via Image URI, Image URL, Base64 format, etc</p>
 
-
-
+            </div>
         </div>
-        <!--END - MESSAGE ALERT-->
-
-
-      <a href="{{ paths.market }}">  <button type="button" class="btn btn-primary">MarketPlace</button></a>
-
 
     </div>
-
-
 
 </div>

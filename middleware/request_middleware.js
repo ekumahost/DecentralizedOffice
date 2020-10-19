@@ -10,17 +10,14 @@ module.exports = function (myMiddleware) {
                 twing.addGlobal('year', d.getFullYear());
                 twing.addGlobal('session', req.session);
                 twing.addGlobal('market_contracts_address', constants.contract_address);
+                twing.addGlobal('compoundCETHContractAddress', process.env.compoundCETHContractAddress);
                 twing.addGlobal('site_url', process.env.website_url);
                 twing.addGlobal('route_assets', process.env.ASSETS_LOCATION);
                     next();
                 break;
-
         default:
 
-
     }
-
-
 
     }
 

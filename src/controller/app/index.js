@@ -320,10 +320,6 @@ async function getProductList(){
         }
     return productList;
 }
-
-
-
-
 module.exports =  {
     landing(req, res){
             twing.render('landing.twig', {
@@ -349,6 +345,31 @@ module.exports =  {
 
 
     app(req, res){
+
+
+
+    /*    const ipfs = require("nano-ipfs-store").at("https://ipfs.infura.io:5001");
+
+        (async () => {
+
+            const doc = JSON.stringify({
+                foo: "bar",
+                tic: "tac"
+            });
+
+            const cid = await ipfs.add(doc);
+
+            console.log("IPFS cid:", cid); // bafkreidznvxnwoja2bfbwmg76agohdfir4gvzbe7btnnwhijfxi3vfxg5i
+
+            console.log(await ipfs.cat(cid)); // {"foo":"bar","tic":"tac"}
+
+        })();*/
+
+
+
+
+
+
         twing.render('app.twig', {
             'page_title': "APP",
             'params': req.query,

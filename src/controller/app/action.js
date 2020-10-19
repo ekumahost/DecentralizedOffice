@@ -3,7 +3,6 @@ const md5 = require('md5');
 const fs = require('fs');
 
 const path = require('path');
-
 const ipfsAPI = require('ipfs-api');
 //const multer = require('multer');
 const dataUriToBuffer = require('data-uri-to-buffer');
