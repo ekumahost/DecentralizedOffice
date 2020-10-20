@@ -27,10 +27,10 @@
                                         Group Savings
                                     </div>
                                     <div class="value">
-                                        {{ 4 }}
+                                        {{ 0 }}
                                     </div>
                                     <div class="trending trending-up-basic">
-                                        <span>${{ 750|number_format(2, '.', ',') }}</span><i class="os-icon os-icon-arrow-up2"></i>
+                                        <span>${{ 0|number_format(2, '.', ',') }}</span><i class="os-icon os-icon-arrow-up2"></i>
                                     </div>
                                 </a>
                             </div>
@@ -45,7 +45,7 @@
                                 </div>
 
                                 <div class="trending trending-up-basic">
-                                    FIAT: <span>${{ 1250|number_format(2, '.', ',') }}</span><i class="os-icon os-icon-arrow-up2"></i>
+                                    FIAT: <span>${{ 0|number_format(2, '.', ',') }}</span><i class="os-icon os-icon-arrow-up2"></i>
                                 </div>
 
                             <div class="element-box-tp ">
@@ -96,7 +96,7 @@
                                 </div>
                             </td>
                             <td class="d-sm-none d-xxxxl-table-cell d-md-table-cell d-xxl-none">
-                                <strong>${{ 1250|number_format(2, '.', ',') }}</strong>
+                                <strong>${{ 0|number_format(2, '.', ',') }}</strong>
                                 <div class="balance-label smaller lighter text-nowrap">
                                     FIAT (USD)
                                 </div>
@@ -178,10 +178,9 @@
 
                         <tr>
                             <th>Status</th>
-                            <th class="text-right"> Amount </th>
+                            <th class="text-right"> Amount(ETH) </th>
 
-                            <th class="text-center"> Detail </th>
-                            <th> End Date </th>
+                            <th class="text-center"> Members </th>
                             <th> Action </th>
                         </tr>
                         </thead>
@@ -202,48 +201,30 @@
 "></span>
                                     <span>{{ spon.status }}</span>
                                     <hr>
-
-                                    {% if spon.start_date %}
-                                        <span>subscription</span><span class="smaller lighter">{{ spon.start_date |date('F jS, Y') }}</span><br>
-
-                                    {% else %}
-
-                                        <span>subscription</span><span class="smaller lighter">Pending</span><br>
-
-                                    {% endif %}
+                                        <span>{{ spon.title }}</span>
 
                                 </td>
 
-                                <td class="text-right bolder nowrap">  <span class="text-success">&#8358;{{ (spon.unit_price*spon.units)|number_format(2, '.', ',') }}  </span> <hr>
+                                <td class="text-right bolder nowrap">  <span class="text-success">{{ (spon.contribution_price*spon.total_members)|number_format(2, '.', ',') }}  </span> <hr>
+                                    <span>Contribution: </span><span class="smaller lighter">{{ spon.contribution_price|number_format(2, '.', ',') }}</span>
+
+                                </td>
+
+
+                                <td class="cell-with-media">  <span>{{ spon.registered_members|length }} of {{ spon.total_members }}</span>
+                                    <hr>
+
+                                    {% for members in  spon.registered_members %}
+                                         <span>{{ loop.index }}</span><span class="smaller lighter">{{ members }}</span><br>
+                                    {% endfor %}
+
+                                </td>
+
+
+                                <td class="text-center">   <button data-target=".joinPullModal" data-toggle="modal" class="badge badge-success joinPoolButton">Contribute</button>
+                                    <hr>
+                                    <span>Profit</span><span class="smaller lighter text-success">$ {{  (spon.roi/100*(spon.contribution_price*spon.total_members)) |number_format(2, '.', ',') }}</span><br>
                                     <span>ROI</span><span class="smaller lighter">{{ spon.roi }}%</span>
-
-                                </td>
-
-
-                                <td class="cell-with-media">   <span>{{ spon.title }}</span>
-                                    <hr>
-                                    <span>Units</span><span class="smaller lighter">{{ spon.units }}</span><br>
-                                    <span>price</span><span class="smaller lighter">&#8358;{{ spon.unit_price|number_format(2, '.', ',') }}</span>
-                                </td>
-
-                                <td>
-                                    {#<span>Ends in </span><span class="smaller lighter"><script type="text/javascript">document.write(moment({{ spon.createdAt }}, "YYYYMMDD").fromNow());</script></span>#}
-
-                                    {% if spon.start_date %}
-                                        <span></span><span class="smaller lighter">{{ spon.end_date|date('F jS, Y') }}</span>
-
-                                    {% else %}
-                                        <span></span><span class="smaller lighter">Pending</span>
-
-
-                                    {% endif %}
-                                </td>
-
-                                <td class="text-center">   <button class="badge badge-success withdraw_fund_button">Withdraw funds</button>
-                                    <hr>
-                                    <span>Profit</span><span class="smaller lighter text-success">&#8358; {{  (spon.roi/100*(spon.unit_price*spon.units)) |number_format(2, '.', ',') }}</span><br>
-                                    <span>Income</span><span class="smaller lighter">&#8358;{{ ((spon.unit_price*spon.units) + (spon.roi/100*(spon.unit_price*spon.units))) |number_format(2, '.', ',') }}</span>
-
                                 </td>
                             </tr>
                         {% endfor %}
@@ -374,6 +355,46 @@
         </div>
     </div>
 </div>
+
+
+
+<div aria-labelledby="joinPullModal" class="modal fade joinPullModal" role="dialog" tabindex="-1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                   Join Group Savings
+                </h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true"> ×</span></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="">Asset</label><br>
+                       ETH
+
+                </div>
+                <div class="form-group">
+                    <label for=""> Amount(ETH)</label>
+                    <input id="withdrawAmountInput" disabled value="5" class="form-control" type="number">
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button"> Close</button>
+                <button class="btn btn-primary joinPullButtonStart" type="button">Join Now</button>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
 
 
 

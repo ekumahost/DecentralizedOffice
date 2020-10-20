@@ -98,9 +98,8 @@ async function getcETHBalance(address){
   //var percentageChange = parsePercentageProfitLoss(balanceOfUnderlying,cTokenBalance * 0.03);
 
   //console.log('AA OKAY', percentageChange, balanceOfUnderlying, cTokenBalance * exchangeRateCurrent);
-    //$("#PercentageHolder").html('%'+ percentageChange.toFixed(2));
-
-    $("#PercentageHolder").html('%'+ (percentageChange+0.35).toFixed(2));
+    $("#PercentageHolder").html('%'+ percentageChange.toFixed(2));
+  //  $("#PercentageHolder").html('%'+ (percentageChange+0.35).toFixed(2));
     $("#withdrawAmountInput").val(cTokenBalance);
     $("#withdrawAmountInputHidden").val(cTokenBalance);
 
@@ -262,8 +261,6 @@ async function getcETHBalance(address){
 
 
 
-
-
     $(".withdrawActionButton").on("click", function(e) { //
         $(this).LoadingOverlay("show");
         let user_ceth_bal = $('#withdrawAmountInputHidden').val();
@@ -320,6 +317,20 @@ async function getcETHBalance(address){
 
     });
 
+
+    $(".joinPullButtonStart").on("click", function(e) { //
+        $(this).LoadingOverlay("show");
+
+            Swal.fire(
+                'Error!',
+                "Something is wrong, you do not have enough ETH to join.",
+                'error'
+            );
+            $('.joinPullButtonStart').LoadingOverlay("hide");
+
+            return false;
+
+    });
 
 
 
@@ -380,7 +391,6 @@ async function buildEthUSDWithdrawalConfirm(withdrawalAmount){
     }));
 
 }
-
 
 
 });

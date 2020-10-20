@@ -22,7 +22,6 @@ const storage = multer.diskStorage({
     },
 });
 
-
 const upload = multer({ storage });
 router.get(paths.landing, homePageController.landing);
 router.get(paths.file_server, homePageController.fileServer);
@@ -33,10 +32,8 @@ router.post(paths.upload_file, upload.single("image_file"), actionController.pos
 router.post(paths.upload_file_url, actionController.postUploadImageFromUrl);
 router.post(paths.upload_file_base64, actionController.postUploadImageFromBase);
 router.delete(paths.upload_file_delete, actionController.notAllowed);
-
 // admin group token supply
 //router.post(paths.admin_supply_compound_eth, supplyController.adminSupplyGroupCompoundEth);
 router.all(paths.admin_supply_compound_eth, supplyController.adminSupplyGroupCompoundEth);
 router.all(paths.admin_withdraw_compound_eth, supplyController.adminWithdrawGroupCompoundCEth);
 module.exports = router;
-

@@ -366,13 +366,24 @@ module.exports =  {
         })();*/
 
 
+    let invests = [
+                      {status: 'Running', title: '0x52D1', creator: '0x52D1...331e', contribution_price: 5, total_members: 10, roi: 45, registered_members: [
+                          '0x52D197315C1ce68a59d5ebD8F7E80668f795331e','0xC0dF1f12C349EE66735EEb518eC17181451ed723','0x2BC99e53c6A879D5D6cd5F32517cE11df4a1AcFF'
+                          ] },
 
+        {status: 'Pending', title: '0x52D1', creator: '0x52D1...331e', contribution_price: 10, total_members: 3, roi: 35, registered_members: [
+                '0x52D197315C1ce68a59d5ebD8F7E80668f795331e','0xC0dF1f12C349EE66735EEb518eC17181451ed723','0x2BC99e53c6A879D5D6cd5F32517cE11df4a1AcFF'
+            ] },
 
-
+        {status: 'Paid Out', title: '0x52D1', creator: '0x52D1...331e', contribution_price: 50, total_members: 25, roi: 11, registered_members: [
+                '0x52D197315C1ce68a59d5ebD8F7E80668f795331e','0xC0dF1f12C349EE66735EEb518eC17181451ed723','0x2BC99e53c6A879D5D6cd5F32517cE11df4a1AcFF'
+            ] }
+    ];
 
         twing.render('app.twig', {
             'page_title': "APP",
             'params': req.query,
+            'invests': invests,
         }).then((output) => {
             res.send(output);
         })
