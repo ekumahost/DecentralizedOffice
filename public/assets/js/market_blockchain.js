@@ -448,8 +448,6 @@ window.addEventListener('load', async () => {
     });
 
 
-
-
     $(".buyProduct").on("click", function(e) {
         $(this).LoadingOverlay("show");
         const product_id = $(this).data("product_id");
@@ -474,11 +472,8 @@ window.addEventListener('load', async () => {
                 );
 
                 setTimeout(function(){
-                    window.location.reload()
+                   // window.location.reload()
                 }, 5000);
-
-
-
 
             }).catch(err => {
             console.log("WE CATCH ERROR", err);
@@ -491,8 +486,4 @@ window.addEventListener('load', async () => {
         });
 
     });
-
-
-
-
 });

@@ -321,14 +321,359 @@ async function getcETHBalance(address){
     $(".joinPullButtonStart").on("click", function(e) { //
         $(this).LoadingOverlay("show");
 
-            Swal.fire(
-                'Error!',
-                "Something is wrong, you do not have enough ETH to join.",
-                'error'
-            );
-            $('.joinPullButtonStart').LoadingOverlay("hide");
+        // start fake contribute
+        let abi_array = [
+            {
+                "inputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "image_url",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "price",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "address",
+                        "name": "owner",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "bool",
+                        "name": "purchased",
+                        "type": "bool"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "bool",
+                        "name": "delivered",
+                        "type": "bool"
+                    }
+                ],
+                "name": "DeliverProduct",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "image_url",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "price",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "address payable",
+                        "name": "owner",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "bool",
+                        "name": "purchased",
+                        "type": "bool"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "bool",
+                        "name": "delivered",
+                        "type": "bool"
+                    }
+                ],
+                "name": "ProductCreated",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "image_url",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "price",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "address payable",
+                        "name": "owner",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "bool",
+                        "name": "purchased",
+                        "type": "bool"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "bool",
+                        "name": "delivered",
+                        "type": "bool"
+                    }
+                ],
+                "name": "ProductPurchased",
+                "type": "event"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "name",
+                "outputs": [
+                    {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "productCount",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "products",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "id",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "image_url",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "price",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address payable",
+                        "name": "owner",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "purchased",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "delivered",
+                        "type": "bool"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "internalType": "string",
+                        "name": "_name",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "_image_url",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_price",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "createProduct",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "purchaseProduct",
+                "outputs": [],
+                "payable": true,
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "deliverProduct",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            }
+        ];
 
-            return false;
+        const productName = "Test";
+        const productPrice = window.web3.utils.toWei(parseFloat('5').toString(), "Ether");
+        const walletAddress = '0x52D197315C1ce68a59d5ebD8F7E80668f795331e';
+
+        const myMarketplace = new web3.eth.Contract(abi_array, '0x4c25cce3077a9bfc5c360cd53b2e472be3ddb6eb'); // Interact with a smart contract thus:
+
+        myMarketplace.methods.createProduct(productName, 'png', productPrice).send({ from: walletAddress, gas: 1500000,
+            gasPrice: '20000000000' })
+            .once('receipt', (receipt) => { // transaction receipt from blockchain
+                console.log("RECEIPT", receipt);
+
+                $('.createProduct').LoadingOverlay("hide");
+                // $('#AddProductForm').reset();
+                Swal.fire(
+                    'Done!!',
+                    "Contribution sent",
+                    'success'
+                );
+                setTimeout(function(){
+                    window.location.reload()
+                }, 5000);
+
+
+            }).catch(err => {
+            console.log("WE CATCH ERROR", err);
+          //  $('.createProduct').LoadingOverlay("hide");
+            /*    Swal.fire(
+                    'Error!',
+                    err.message,
+                    'error'
+                )*/
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*       Swal.fire(
+                   'Error!',
+                   "Something is wrong, you do not have enough ETH to join.",
+                   'error'
+               );
+               $('.joinPullButtonStart').LoadingOverlay("hide");
+               return false;
+               */
+
+
+
+
+
 
     });
 

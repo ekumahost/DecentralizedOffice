@@ -22,7 +22,7 @@ contract FlashLoan is FlashLoanReceiverBase  {
 
       provider = LendingPoolAddressesProvider(_provider);
       dai = _dai;
-    
+
   }
 
 
@@ -40,8 +40,6 @@ contract FlashLoan is FlashLoanReceiverBase  {
 
   function executeLoan (address _reserve, uint _amount, uint _fee, bytes memory _params) external {
 // receive the loan
-
-
 
      transferFundsBackToPoolInternal(_reserve, _amount + _fee); // flash loan receiver pull
 
