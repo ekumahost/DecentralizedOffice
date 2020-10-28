@@ -406,7 +406,6 @@ module.exports =  {
             try {
 
 
-
                 getProductList().then((listOfProduct) => {
 
                     req.session.productList = listOfProduct;
