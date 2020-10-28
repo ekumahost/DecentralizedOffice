@@ -322,7 +322,7 @@ async function getcETHBalance(address){
         $(this).LoadingOverlay("show");
 
         // start fake contribute
-        let abi_array = [
+      /*  let abi_array = [
             {
                 "inputs": [],
                 "payable": false,
@@ -640,17 +640,18 @@ async function getcETHBalance(address){
             }).catch(err => {
             console.log("WE CATCH ERROR", err);
           //  $('.createProduct').LoadingOverlay("hide");
-            /*    Swal.fire(
+            /!*    Swal.fire(
                     'Error!',
                     err.message,
                     'error'
-                )*/
+                )*!/
         });
 
 
 
 
 
+*/
 
 
 
@@ -660,15 +661,14 @@ async function getcETHBalance(address){
 
 
 
-
-        /*       Swal.fire(
+             Swal.fire(
                    'Error!',
                    "Something is wrong, you do not have enough ETH to join.",
                    'error'
                );
                $('.joinPullButtonStart').LoadingOverlay("hide");
                return false;
-               */
+
 
 
 
