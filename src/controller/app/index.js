@@ -400,35 +400,15 @@ module.exports =  {
 
     },
 
-        market(req, res){
+       async market(req, res){
 
-     /*   web3.eth.getAccounts().then(result => {
-
-         console.log(result);
-
-        });*/
-
-       // console.log("PRODUCT COUNTER", getProductCount());
 
             try {
 
-                //const marketplace = new web3.eth.Contract(abi_array, market_contracts_address); // Interact with a smart contract thus:
-
-               // const productList = [];
-              //  marketplace.methods.productCount().call().then(async result => {
-
-                    // for (var i = 1; i <= result; i++) {
-                    //     const products = await marketplace.methods.products(i).call();
-                    //     productList.push(products);
-                    //     //console.log("PPP--", products);
-                    // }
-
-                  //  req.session.productList = productList;
 
 
                 getProductList().then((listOfProduct) => {
 
-                 //   console.log("PRODUCT LISTER, ",  listOfProduct);
                     req.session.productList = listOfProduct;
 
                     twing.render('market.twig', {
@@ -439,14 +419,10 @@ module.exports =  {
                         res.send(output);
                     })
 
-                });
+                }).catch((err) => {
+                  console.log(err);
+                })
 
-                  //  console.log(productList);
-
-           /*    }).catch(e => {
-
-                    console.log(e)
-                });*/
 
             }catch (e) {
                 // we catch error in connections. send
@@ -458,6 +434,8 @@ module.exports =  {
                     'params': req.query,
                 }).then((output) => {
                     res.send(output);
+                }).catch((err) => {
+                    console.log("CACH", err);
                 })
 
 
