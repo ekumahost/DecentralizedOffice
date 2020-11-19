@@ -1,0 +1,62 @@
+first command : truffle compile
+second command: truffle migrate : push it to the blockchain
+
+>>truffle compile
+>> truffle migrate
+// truffle migrate --reset --network development
+// truffle migrate --reset --network binanceTestNet
+
+// lets open truffle console..
+
+>> truffle console
+
+accounts = await web3.eth.getAccounts()
+
+blockNumber = await web3.eth.getBlockNumber()
+
+marketplace = await Marketplace.deployed()
+  CNTRL D to exit truffle console
+// make sure to create migration file for the contract before it can migrate..
+
+>>  marketplace.address 
+
+name = await marketplace.name()
+
+
+// FOR TESTING it comes with mocka an chai
+
+
+// wei converter: etherconverter.online
+
+
+// DEPLOY TO BLOCKCHAIN
+truffle migrate
+
+
+// web3 interact from browser
+1. we need the abi
+2. the address.
+
+
+
+// Deployed Marketplace to Binance Smart Chain Test NEt
+
+
+  Deploying 'Marketplace'
+   -----------------------
+   > transaction hash:    0x6578bc570e31701176ba4274438003b49b866507bef99f95569f287c86ced148
+   > Blocks: 4            Seconds: 10
+   > contract address:    0xf6299f48Dd697338c79E026DD12152ad309CAdE2
+   > block number:        3769664
+   > block timestamp:     1605772033
+   > account:             0x58A0ab102EFD2F7aBaA47A4D320b54D9Ab24410f
+   > balance:             2.41526038
+   > gas used:            1229095
+   > gas price:           20 gwei
+   > value sent:          0 ETH
+   > total cost:          0.0245819 ETH
+
+
+
+
+

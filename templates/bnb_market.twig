@@ -1,0 +1,15 @@
+
+{% extends 'twig_templates/app.twig' %}
+
+{% block content %}
+
+    {% include 'pages/home/bnb_market.twig' %}
+
+
+
+
+    <script> var bnb_market_contracts_address = '{{ bnb_market_contracts_address }}'; </script>
+    <script src="{{route_assets}}/js/bnb_market_blockchain.js"></script>
+{% endblock %}
+
+

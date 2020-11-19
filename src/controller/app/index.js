@@ -3,7 +3,7 @@ const Web3 = require('web3');
 // https://davekiss.com/ethereum-web3-node-tutorial/
 //let web3 = new Web3('ws://127.0.0.1:7545');
 //let web3 = new Web3('wss://kovan.infura.io/ws/v3/70beb59692f54291923fe85d2589bae6');
-let web3 = new Web3(new Web3.providers.HttpProvider(process.env.http_provider));
+let web3 = new Web3(new Web3.providers.HttpProvider(process.env.bnb_provider));
 
 let abi_array = [
     {
@@ -296,8 +296,11 @@ let abi_array = [
         "type": "function"
     }
 ];
+
+let bnb_abi_array = [ { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": false, "internalType": "uint256", "name": "id", "type": "uint256" }, { "indexed": false, "internalType": "string", "name": "name", "type": "string" }, { "indexed": false, "internalType": "string", "name": "image_url", "type": "string" }, { "indexed": false, "internalType": "uint256", "name": "price", "type": "uint256" }, { "indexed": false, "internalType": "address", "name": "owner", "type": "address" }, { "indexed": false, "internalType": "bool", "name": "purchased", "type": "bool" }, { "indexed": false, "internalType": "bool", "name": "delivered", "type": "bool" } ], "name": "DeliverProduct", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "internalType": "uint256", "name": "id", "type": "uint256" }, { "indexed": false, "internalType": "string", "name": "name", "type": "string" }, { "indexed": false, "internalType": "string", "name": "image_url", "type": "string" }, { "indexed": false, "internalType": "uint256", "name": "price", "type": "uint256" }, { "indexed": false, "internalType": "address payable", "name": "owner", "type": "address" }, { "indexed": false, "internalType": "bool", "name": "purchased", "type": "bool" }, { "indexed": false, "internalType": "bool", "name": "delivered", "type": "bool" } ], "name": "ProductCreated", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "internalType": "uint256", "name": "id", "type": "uint256" }, { "indexed": false, "internalType": "string", "name": "name", "type": "string" }, { "indexed": false, "internalType": "string", "name": "image_url", "type": "string" }, { "indexed": false, "internalType": "uint256", "name": "price", "type": "uint256" }, { "indexed": false, "internalType": "address payable", "name": "owner", "type": "address" }, { "indexed": false, "internalType": "bool", "name": "purchased", "type": "bool" }, { "indexed": false, "internalType": "bool", "name": "delivered", "type": "bool" } ], "name": "ProductPurchased", "type": "event" }, { "constant": true, "inputs": [], "name": "name", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "productCount", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "name": "products", "outputs": [ { "internalType": "uint256", "name": "id", "type": "uint256" }, { "internalType": "string", "name": "name", "type": "string" }, { "internalType": "string", "name": "image_url", "type": "string" }, { "internalType": "uint256", "name": "price", "type": "uint256" }, { "internalType": "address payable", "name": "owner", "type": "address" }, { "internalType": "bool", "name": "purchased", "type": "bool" }, { "internalType": "bool", "name": "delivered", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "internalType": "string", "name": "_name", "type": "string" }, { "internalType": "string", "name": "_image_url", "type": "string" }, { "internalType": "uint256", "name": "_price", "type": "uint256" } ], "name": "createProduct", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "internalType": "uint256", "name": "_id", "type": "uint256" } ], "name": "purchaseProduct", "outputs": [], "payable": true, "stateMutability": "payable", "type": "function" }, { "constant": false, "inputs": [ { "internalType": "uint256", "name": "_id", "type": "uint256" } ], "name": "deliverProduct", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" } ];
 //let market_contracts_address = '0x22e29b7667B454d12dF1AE2Fb17bA204a5c347F4'; // ganache
 let market_contracts_address = process.env.market_contracts_address;
+let bnb_market_contracts_address = process.env.bnb_market_contracts_address;
 
 /*async function getProductCount(){
 
@@ -320,6 +323,25 @@ async function getProductList(){
         }
     return productList;
 }
+
+
+async function getBnbProductList(){
+
+    const marketplace = new web3.eth.Contract(bnb_abi_array, bnb_market_contracts_address); // Interact with a smart contract thus:
+    let productCounts = await marketplace.methods.productCount().call();
+
+    let productList = [];
+    for (var i = 1; i <= productCounts; i++) {
+        const products = await marketplace.methods.products(i).call();
+        productList.push(products);
+        //console.log("PPP--", products);
+    }
+    return productList;
+
+
+}
+
+
 module.exports =  {
     landing(req, res){
             twing.render('landing.twig', {
@@ -441,6 +463,51 @@ module.exports =  {
             }
 
     },
+
+
+    async BnbMarket(req, res){
+
+        try {
+
+
+            getBnbProductList().then((listOfProduct) => {
+
+                req.session.bnbProductList = listOfProduct;
+
+                twing.render('bnb_market.twig', {
+                    'page_title': "BNB Market",
+                    'products': listOfProduct,
+                    'params': req.query,
+                }).then((output) => {
+                    res.send(output);
+                })
+
+            }).catch((err) => {
+                console.log(err);
+            })
+
+
+        }catch (e) {
+            // we catch error in connections. send
+            console.log("WE CATCH, ", e);
+
+            twing.render('bnb_market.twig', {
+                'page_title': "BNB Market",
+                'products': req.session.bnbProductList,
+                'params': req.query,
+            }).then((output) => {
+                res.send(output);
+            }).catch((err) => {
+                console.log("CACH", err);
+            })
+
+
+        }
+
+    },
+
+
+
 
 };
 

@@ -210,6 +210,7 @@ module.exports = Object.freeze({ //Iteration over frozen object is no longer slo
     ],
 
     contract_address: '0x4c25cce3077a9bfc5c360cd53b2e472be3ddb6eb', // kovan
+    bnb_contract_address: '0xf6299f48Dd697338c79E026DD12152ad309CAdE2', // Binance smart Chain Testnet for marketplace
    // contract_address: '0x22e29b7667B454d12dF1AE2Fb17bA204a5c347F4', // ganache
 
 });

@@ -50,11 +50,7 @@ module.exports =  {
         }
 
 
-
-
         try {
-
-
             // push the file to IPFS
             const file = await ipfs.add(globSource(req.file.path));
             let imageFile = (file.cid).toString();
@@ -86,9 +82,7 @@ module.exports =  {
 
         }
 
-
-
-
+        
         try {
 
            // const { urlSource } = IpfsHttpClient;

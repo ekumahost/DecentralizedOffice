@@ -1,0 +1,92 @@
+
+<div class="content-box">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="element-wrapper">
+                <label id="walletHolder">WALLET NOT CONNECTED YET, PLEASE CONNECT FROM METAMASK AND OTHERS</label> <br>
+                <hr>
+                WE have  <label id="productCounts">00</label> products in block.
+            </div>
+        </div>
+    </div>
+
+
+    <div id="APP_CONTENT" style="display: none;">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="element-wrapper">
+                    <label>Add Product</label>
+                    <form id="AddProductForm" action="{{ paths.market }}" enctype="multipart/form-data" method="post">
+
+                        <div class="form-group">
+                            <label for="">IMAGE FILE</label><input id="image_file" name="file" class="form-control" placeholder="must be an image file" type="file">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Item name*</label>
+                            <input id="productName" name="name" required class="form-control" placeholder="Enter name" type="text">
+                            <input id="walletAddress" name="walletAddress" type="hidden">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Item price(ETH)*</label>
+                            <input id="productPrice" name="price" required class="form-control" placeholder="Enter price" type="text">
+                        </div>
+
+                        <div class="form-group">
+                            <input  value="Submit"  class="form-control createProduct" type="submit">
+                        </div>
+
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="element-wrapper">
+                    <label>List of Products</label>
+                    <div class="element-box-tp">
+                        <div class="table-responsive">
+                            <table class="table table-padded">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Price(ETH)</th>
+                                    <th>Owner</th>
+                                    <th>Action</th>
+                                </tr>
+
+                                {% for product in products %}
+                                    <tr class="ProductList">
+                                        <td>{{ product.id }}</td>
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ (product.price/1000000000000000000)|number_format(8, '.', ',') }} </td>
+                                        {#<td>{{ product.price }} </td>#}
+                                        <td>{{ product.owner }}</td>
+                                        <td>
+
+                                            {% if product.purchased %}
+                                                <label class="label lined-success">purchased</label>
+                                            {% else %}
+                                                <button type="button" data-product_price="{{ product.price }}" data-product_id="{{ product.id }}" class="btn btn-primary buyProduct">Buy</button>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
