@@ -3,7 +3,6 @@ const constants = require('../src/utils/constants');
 module.exports = function (myMiddleware) {
 
     return function (req, res, next) {
-
         switch(myMiddleware) {
             case 'assets_middle_ware' :
                 const d = new Date();
@@ -14,6 +13,7 @@ module.exports = function (myMiddleware) {
                 twing.addGlobal('compoundCETHContractAddress', process.env.compoundCETHContractAddress);
                 twing.addGlobal('site_url', process.env.website_url);
                 twing.addGlobal('route_assets', process.env.ASSETS_LOCATION);
+                twing.addGlobal('route_new_assets', process.env.ASSETS_NEW_LOCATION);
                     next();
                 break;
         default:

@@ -50,3 +50,13 @@ $(".uploadButton").on("click", function(e) {
     });
 
 });
+
+$(".comingSoonLink").on("click", function(e) {
+  var message  = $(this).data("message");
+    Swal.fire(
+        'Coming Soon!',
+        message,
+        'warning'
+    );
+});
+

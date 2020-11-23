@@ -91,8 +91,7 @@ window.addEventListener('load', async () => {
 
     try {
 
-       // const productCounts = await marketplace.methods.productCount().call();
-        const productCounts = await marketplace.methods.name().call();
+        const productCounts = await marketplace.methods.productCount().call();
         $("#productCounts").html(productCounts);
 
     }catch (e) {
@@ -136,36 +135,88 @@ window.addEventListener('load', async () => {
         const productName = $('#productName').val();
         const productPrice = window.web3.utils.toWei(parseFloat($('#productPrice').val()).toString(), "Ether");
         const walletAddress = $('#walletAddress').val();
-        // alert(market_contracts_address);
-        //const myMarketplace = new web3.eth.Contract(abi_array, market_contracts_address); // Interact with a smart contract thus:
-        const myMarketplace = new web3.eth.Contract(abi_array, bnb_market_contracts_address); // Interact with a smart contract thus:
 
-        myMarketplace.methods.createProduct(productName, 'png', productPrice).send({ from: walletAddress, gas: 1500000,
-            gasPrice: '20000000000' })
-            .once('receipt', (receipt) => { // transaction receipt from blockchain
-                console.log("RECEIPT", receipt);
 
-                $('.createProduct').LoadingOverlay("hide");
-                // $('#AddProductForm').reset();
+
+
+        var post_path = $('#image_upload_path').val();
+        var fd = new FormData();
+        var files = $('#image_file')[0].files[0];
+        fd.append('image_file', files);
+        var contents = $('#AddProductForm').serialize();
+        $.ajax({
+            url: post_path + '?'+contents,
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function(result){
+                if(result['status'] === 'success'){
+
+                    // image uploaded..
+
+                    // result['data']['image_url']
+
+
+                    const myMarketplace = new web3.eth.Contract(abi_array, bnb_market_contracts_address); // Interact with a smart contract thus:
+                    myMarketplace.methods.createProduct(productName, result['data']['image_url'], productPrice).send({ from: walletAddress, gas: 1500000,
+                        gasPrice: '20000000000' })
+                        .once('receipt', (receipt) => { // transaction receipt from blockchain
+                            console.log("RECEIPT", receipt);
+
+                            $('.createProduct').LoadingOverlay("hide");
+                            // $('#AddProductForm').reset();
+                            Swal.fire(
+                                'Done!!',
+                                "Product Created",
+                                'success'
+                            );
+                            setTimeout(function(){
+                                window.location.reload()
+                            }, 5000);
+
+
+                        }).catch(err => {
+                        console.log("WE CATCH ERROR", err);
+                        $('.createProduct').LoadingOverlay("hide");
+                        /*    Swal.fire(
+                                'Error!',
+                                err.message,
+                                'error'
+                            )*/
+                    });
+
+
+
+                }else{
+
+                    Swal.fire(
+                        'Error!',
+                        result['message'],
+                        'error'
+                    )
+
+                }
+
+            },
+            error: function (e) {
                 Swal.fire(
-                    'Done!!',
-                    "Product Created",
-                    'success'
-                );
-                setTimeout(function(){
-                    window.location.reload()
-                }, 5000);
-
-
-            }).catch(err => {
-            console.log("WE CATCH ERROR", err);
-            $('.createProduct').LoadingOverlay("hide");
-            /*    Swal.fire(
                     'Error!',
-                    err.message,
+                    "Something is wrong, make sure your image is not too large please, try again later..",
                     'error'
-                )*/
+                )
+
+            }
+
         });
+
+
+
+
+
+
+
+
 
     });
 

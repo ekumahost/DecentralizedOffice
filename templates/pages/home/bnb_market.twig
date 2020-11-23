@@ -21,7 +21,9 @@
                     <form id="AddProductForm" action="{{ paths.market }}" enctype="multipart/form-data" method="post">
 
                         <div class="form-group">
-                            <label for="">IMAGE FILE</label><input id="image_file" name="file" class="form-control" placeholder="must be an image file" type="file">
+                            <label for="">IMAGE FILE*</label>
+                            <input required id="image_file" name="file" class="form-control" placeholder="must be an image file" type="file">
+                            <input id="image_upload_path" value="{{ paths.upload_file }}"  type="hidden">
                         </div>
 
                         <div class="form-group">
@@ -31,7 +33,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="">Item price(ETH)*</label>
+                            <label for="">Item price(BNB)*</label>
                             <input id="productPrice" name="price" required class="form-control" placeholder="Enter price" type="text">
                         </div>
 
@@ -57,7 +59,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Price(ETH)</th>
+                                    <th>Price(BNB)</th>
                                     <th>Owner</th>
                                     <th>Action</th>
                                 </tr>
@@ -65,7 +67,10 @@
                                 {% for product in products %}
                                     <tr class="ProductList">
                                         <td>{{ product.id }}</td>
-                                        <td>{{ product.name }}</td>
+                                        <td>
+
+                                            <img src="{{ product.image_url }}" >
+                                            {{ product.name }}</td>
                                         <td>{{ (product.price/1000000000000000000)|number_format(8, '.', ',') }} </td>
                                         {#<td>{{ product.price }} </td>#}
                                         <td>{{ product.owner }}</td>

@@ -22,13 +22,13 @@ const storage = multer.diskStorage({
     },
 });
 
+
 const upload = multer({ storage });
 router.get(paths.landing, homePageController.landing);
 router.get(paths.file_server, homePageController.fileServer);
 router.get(paths.app, homePageController.app);
 router.get(paths.market, homePageController.market);
 router.get(paths.bnb_market, homePageController.BnbMarket);
-
 
 router.post(paths.upload_file, upload.single("image_file"), actionController.postUploadSingleImage);
 router.post(paths.upload_file_url, actionController.postUploadImageFromUrl);

@@ -338,9 +338,7 @@ async function getBnbProductList(){
     }
     return productList;
 
-
 }
-
 
 module.exports =  {
     landing(req, res){
@@ -352,7 +350,6 @@ module.exports =  {
             })
 
     },
-
 
     fileServer(req, res){
         twing.render('file_cdn.twig', {

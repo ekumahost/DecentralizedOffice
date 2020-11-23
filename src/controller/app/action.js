@@ -56,7 +56,7 @@ module.exports =  {
             let imageFile = (file.cid).toString();
 
             let output = {
-                image_url: 'https://ipfs.io/ipfs/' + imageFile
+                image_url: 'https://cloudflare-ipfs.com/ipfs/' + imageFile
             };
 
             response.successResponse(res, output, "image uploaded", null);
@@ -82,7 +82,7 @@ module.exports =  {
 
         }
 
-        
+
         try {
 
            // const { urlSource } = IpfsHttpClient;
@@ -90,7 +90,7 @@ module.exports =  {
             let imageFile = (file.cid).toString();
 
             let output = {
-                image_url: 'https://ipfs.io/ipfs/' + imageFile
+                image_url: 'https://cloudflare-ipfs.com/ipfs/' + imageFile
             };
 
             response.successResponse(res, output, "image uploaded", null);
