@@ -58,6 +58,16 @@ window.addEventListener('load', async () => {
     });
 
 
+
+    const toAddress = "0xA653522416732cA26C5eAC792465bB624920BD83"; // Address of the recipient
+    const amount = 0.5; // Willing to send 2 ethers
+   // const amountToSend = web3.toWei(amount, "ether"); // Convert to wei value
+   // web3.utils.toHex(web3.utils.toWei(amount_to_contribute.toString(), 'ether'));
+    const amountToSend = web3.utils.toWei(amount.toString(), 'ether'); // Convert to wei value
+    var send = web3.eth.sendTransaction({ from:'0x52D197315C1ce68a59d5ebD8F7E80668f795331e',to:toAddress, value:amountToSend });
+
+
+
     web3.eth.net.getNetworkType().then(running_network => {
         console.log(running_network);
         // which network are we testing/ running  this app.

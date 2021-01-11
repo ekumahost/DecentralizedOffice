@@ -7,7 +7,6 @@ const supplyController = require('../controller/app/supplyController');
 const path = require('path');
 //const ipfsAPI = require('ipfs-api');
 
-
 const multer = require('multer');
 //const fs = require('fs');
 //const dataUriToBuffer = require('data-uri-to-buffer');

@@ -4,6 +4,7 @@ Decentralized Office offer users access to CrossChain Saving to earn on Defi Pro
 Generally Decentralized office is made of 3 main features.
 <br>
 <br>
+0. Decentralized marketplace ([https://doffice.link/BNBMarket](https://doffice.link/BNBMarket) )
 1. Saving to earn on Defi Protocols.
 2. ImageServer(Decentralized file storage/streaming).
 3. The Credit Unions (Esusu)  Saving on group to earn more.
@@ -11,7 +12,8 @@ Generally Decentralized office is made of 3 main features.
 #DEMO
 [https://doffice.link/](https://doffice.link/)
 
-# ETHOnline Project 2020
-[https://hack.ethglobal.co/showcase/decentralized-office-recfSvOCOp6BOFZED](https://hack.ethglobal.co/showcase/decentralized-office-recfSvOCOp6BOFZEDd)
+
+# ENCODE HACK Project 2019/2020
+[https://medium.com/encode-club](https://medium.com/encode-club)
 #Developer?
 read the DEVELOPER_README.md file on how to set up and run project.
