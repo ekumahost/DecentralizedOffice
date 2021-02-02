@@ -1,9 +1,31 @@
 let abi_array = [ { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": false, "internalType": "uint256", "name": "id", "type": "uint256" }, { "indexed": false, "internalType": "string", "name": "name", "type": "string" }, { "indexed": false, "internalType": "string", "name": "image_url", "type": "string" }, { "indexed": false, "internalType": "uint256", "name": "price", "type": "uint256" }, { "indexed": false, "internalType": "address", "name": "owner", "type": "address" }, { "indexed": false, "internalType": "bool", "name": "purchased", "type": "bool" }, { "indexed": false, "internalType": "bool", "name": "delivered", "type": "bool" } ], "name": "DeliverProduct", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "internalType": "uint256", "name": "id", "type": "uint256" }, { "indexed": false, "internalType": "string", "name": "name", "type": "string" }, { "indexed": false, "internalType": "string", "name": "image_url", "type": "string" }, { "indexed": false, "internalType": "uint256", "name": "price", "type": "uint256" }, { "indexed": false, "internalType": "address payable", "name": "owner", "type": "address" }, { "indexed": false, "internalType": "bool", "name": "purchased", "type": "bool" }, { "indexed": false, "internalType": "bool", "name": "delivered", "type": "bool" } ], "name": "ProductCreated", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "internalType": "uint256", "name": "id", "type": "uint256" }, { "indexed": false, "internalType": "string", "name": "name", "type": "string" }, { "indexed": false, "internalType": "string", "name": "image_url", "type": "string" }, { "indexed": false, "internalType": "uint256", "name": "price", "type": "uint256" }, { "indexed": false, "internalType": "address payable", "name": "owner", "type": "address" }, { "indexed": false, "internalType": "bool", "name": "purchased", "type": "bool" }, { "indexed": false, "internalType": "bool", "name": "delivered", "type": "bool" } ], "name": "ProductPurchased", "type": "event" }, { "constant": true, "inputs": [], "name": "name", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "productCount", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "name": "products", "outputs": [ { "internalType": "uint256", "name": "id", "type": "uint256" }, { "internalType": "string", "name": "name", "type": "string" }, { "internalType": "string", "name": "image_url", "type": "string" }, { "internalType": "uint256", "name": "price", "type": "uint256" }, { "internalType": "address payable", "name": "owner", "type": "address" }, { "internalType": "bool", "name": "purchased", "type": "bool" }, { "internalType": "bool", "name": "delivered", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "internalType": "string", "name": "_name", "type": "string" }, { "internalType": "string", "name": "_image_url", "type": "string" }, { "internalType": "uint256", "name": "_price", "type": "uint256" } ], "name": "createProduct", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "internalType": "uint256", "name": "_id", "type": "uint256" } ], "name": "purchaseProduct", "outputs": [], "payable": true, "stateMutability": "payable", "type": "function" }, { "constant": false, "inputs": [ { "internalType": "uint256", "name": "_id", "type": "uint256" } ], "name": "deliverProduct", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" } ];
-
+$("#portisEmail").hide();
 window.addEventListener('load', async () => {
     // Modern dapp browsers...
 
    // console.log("HAHAHAHA", window.BinanceChain);
+    // load portis
+    const myBinanceChainNode = {
+        nodeUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+        chainId: 97,
+    };
+   // const portis = new Portis('bf34ccdf-0d88-41be-ac07-d28f3dfba144', 'mainnet');
+    const portis = new Portis('bf34ccdf-0d88-41be-ac07-d28f3dfba144', myBinanceChainNode);
+    //const web3 = new Web3(portis.provider);
+   // console.log('WE HAVE PORTIS', portis);
+
+              portis.showPortis();
+    portis.onLogin((walletAddress, email, reputation) => {
+        console.log("Portis Logged in now!!!1", walletAddress, email, reputation);
+    });
+
+    portis.isLoggedIn().then(({ error, result }) => {
+        $("#portisEmail").hide();
+
+        console.log("LOGGED PORTIS", error, result);
+    });
+
+
 
     if (window.BinanceChain) {
         window.web3 = new Web3(BinanceChain);
@@ -26,7 +48,8 @@ window.addEventListener('load', async () => {
     }
     // Legacy dapp browsers...
     else if (window.web3) {
-        window.web3 = new Web3(web3.currentProvider);
+        window.web3 = new Web3(web3.currentProvider); // not using portis
+      //  window.web3 = new Web3(portis.provider); // using portis
         // Acccounts always exposed
         // web3.eth.sendTransaction({/* ... */});
     }
@@ -68,10 +91,11 @@ window.addEventListener('load', async () => {
     if(networkID != 97) { // bnb smartchain test net is 97
         Swal.fire(
             'Error!',
-            "On a wrong network, this app run on BNB SmartChain Testnet, install Binance Wallet Chrome Extension and read how to configure your metamask here: https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain ",
+            "On a wrong network, this app run on BNB SmartChain Testnet, install Binance Wallet Chrome Extension and read how to configure your metamask here: https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain "+networkID,
             'error'
         )
     }
+
 
    /* web3.eth.net.getNetworkType().then(running_network => {
         console.log('RUNNING NETWORK IS:', running_network);
@@ -218,6 +242,13 @@ window.addEventListener('load', async () => {
 
 
 
+    });
+
+
+
+    $("#portisLogout").on("click", function(e) {
+        portis.logout();
+        location.reload();
     });
 
 
